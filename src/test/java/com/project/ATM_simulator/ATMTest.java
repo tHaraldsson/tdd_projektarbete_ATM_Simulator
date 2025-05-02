@@ -1,11 +1,12 @@
 package com.project.ATM_simulator;
 
+import com.project.ATM_simulator.model.ATM;
+import com.project.ATM_simulator.model.Bank;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class ATMTest {
-
 
 @Test
     public void testCheckBalance(){
