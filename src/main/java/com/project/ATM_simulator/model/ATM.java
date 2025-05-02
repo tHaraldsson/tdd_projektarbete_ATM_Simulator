@@ -15,4 +15,11 @@ public class ATM {
         double balance = viewUserBankBalance();
         return balance - withdraw;
     }
+
+    public double withdrawPocketBalance(double withdraw){
+        double balance = user.getPocketBalance();
+        double newBalance = balance + withdraw;
+        user.setPocketBalance(newBalance);
+        return newBalance;
+    }
 }

@@ -17,7 +17,7 @@ class ATMTest {
     @BeforeEach
     void setUp() {
        bank = new Bank(1000.0);
-       user = new User(bank);
+       user = new User(bank, 0);
        atm = new ATM(user);
     }
 
@@ -37,7 +37,7 @@ class ATMTest {
 
     @Test
     public void testUserAddPocketBalance() {
-    double pocketBalance = user.viewUserPocketBalance();
+    double pocketBalance = user.getPocketBalance();
     double withdraw = 100;
     double pocketBalanceAfterWithdrawal = atm.withdrawPocketBalance(withdraw);
     assertEquals(pocketBalance + withdraw, pocketBalanceAfterWithdrawal);
