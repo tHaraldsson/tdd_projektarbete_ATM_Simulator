@@ -13,6 +13,10 @@ public class User {
         return bank.getAccountBalance();
     }
 
+    public void setAccountBalance(double accountBalance) {
+        bank.setAccountBalance(accountBalance);
+    }
+
     public double getPocketBalance() {
         return pocketBalance;
     }

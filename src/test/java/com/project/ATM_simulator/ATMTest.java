@@ -16,9 +16,9 @@ class ATMTest {
 
     @BeforeEach
     void setUp() {
-       bank = new Bank(1000.0);
-       user = new User(bank, 0);
-       atm = new ATM(user);
+        bank = new Bank(1000.0);
+        user = new User(bank, 0);
+        atm = new ATM(user);
     }
 
     @Test
@@ -29,26 +29,36 @@ class ATMTest {
 
     @Test
     public void testUserBankAccountWithdrawal() {
-        double bankAccountBalance = atm.viewUserBankBalance();
         double withdraw = 100;
-        double bankAccountAfterWithdrawal = atm.userBankAccountWithdrawal(withdraw);
-        assertEquals(bankAccountBalance - withdraw, bankAccountAfterWithdrawal);
+        double expectedBalance = 1000.0 - withdraw;
+
+        double actualBalance = atm.userBankAccountWithdrawal(withdraw);
+
+        assertEquals(expectedBalance, actualBalance);
     }
 
     @Test
     public void testUserPocketBalanceWithdrawal() {
-    double pocketBalance = user.getPocketBalance();
-    double withdraw = 100;
-    double pocketBalanceAfterWithdrawal = atm.withdrawPocketBalance(withdraw);
-    assertEquals(pocketBalance + withdraw, pocketBalanceAfterWithdrawal);
+        double withdraw = 100;
+        double expectedBalance = 0 + 100;
+        double actualBalance = atm.withdrawPocketBalance(withdraw);
+
+
+        assertEquals(expectedBalance, actualBalance);
     }
+
+
 
     @Test
     public void testWithdraw() {
         double withdraw = 100;
-        double bankAccountBalance = atm.userBankAccountWithdrawal(withdraw);
-        double pocketBalance = atm.withdrawPocketBalance(withdraw);
-        assertEquals(100, pocketBalance);
-        assertEquals(900, bankAccountBalance);
+
+        double expectedBankBalance = 1000.0 - withdraw;
+        double expectedPocketBalance = 0 + withdraw;
+
+        atm.withdraw(withdraw);
+
+        assertEquals(expectedBankBalance, user.getAccountBalance());
+        assertEquals(expectedPocketBalance, user.getPocketBalance());
     }
 }
