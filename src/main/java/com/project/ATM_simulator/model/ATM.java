@@ -10,4 +10,9 @@ public class ATM {
     public double viewUserBankBalance() {
        return user.getAccountBalance();
     }
+
+    public double userBankAccountWithdrawal(double withdraw){
+        double balance = viewUserBankBalance();
+        return balance - withdraw;
+    }
 }
