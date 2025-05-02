@@ -7,7 +7,7 @@ public class ATM {
         this.bank = bank;
     }
 
-    public double checkBalance() {
+    public double checkBankBalance() {
        return bank.getAccountBalance();
     }
 }

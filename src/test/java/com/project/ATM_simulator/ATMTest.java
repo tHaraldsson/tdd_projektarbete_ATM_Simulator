@@ -8,12 +8,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ATMTest {
 
-@Test
-    public void testCheckBalance(){
+    @Test
+    public void testCheckBankBalance() {
         Bank bank = new Bank(1000.0);
         ATM atm = new ATM(bank);
 
-        double balance = atm.checkBalance();
+        double balance = atm.checkBankBalance();
         assertEquals(1000.0, balance);
+    }
+
+    @Test
+    public void testCheckBankBalanceWithUser() {
+        Bank bank = new Bank(1000.0);
+        User user = new User(bank);
+        ATM atm = new ATM(user);
+
+        double balance = atm.checkUserBalance();
+        assertEquals(1000.0, balance);
+
     }
 }
