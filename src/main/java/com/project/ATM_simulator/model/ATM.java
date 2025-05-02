@@ -1,13 +1,13 @@
 package com.project.ATM_simulator.model;
 
 public class ATM {
-    private Bank bank;
+    private User user;
 
-    public ATM(Bank bank) {
-        this.bank = bank;
+    public ATM(User user) {
+        this.user = user;
     }
 
-    public double checkBankBalance() {
-       return bank.getAccountBalance();
+    public double viewUserBankBalance() {
+       return user.getAccountBalance();
     }
 }
