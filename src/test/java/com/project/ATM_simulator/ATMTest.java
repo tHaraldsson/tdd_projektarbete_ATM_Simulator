@@ -36,11 +36,19 @@ class ATMTest {
     }
 
     @Test
-    public void testUserAddPocketBalance() {
+    public void testUserPocketBalanceWithdrawal() {
     double pocketBalance = user.getPocketBalance();
     double withdraw = 100;
     double pocketBalanceAfterWithdrawal = atm.withdrawPocketBalance(withdraw);
     assertEquals(pocketBalance + withdraw, pocketBalanceAfterWithdrawal);
     }
 
+    @Test
+    public void testWithdraw() {
+        double withdraw = 100;
+        double bankAccountBalance = atm.userBankAccountWithdrawal(withdraw);
+        double pocketBalance = atm.withdrawPocketBalance(withdraw);
+        assertEquals(100, pocketBalance);
+        assertEquals(900, bankAccountBalance);
+    }
 }
