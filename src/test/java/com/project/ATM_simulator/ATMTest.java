@@ -2,6 +2,7 @@ package com.project.ATM_simulator;
 
 import com.project.ATM_simulator.model.ATM;
 import com.project.ATM_simulator.model.Bank;
+import com.project.ATM_simulator.model.Currency;
 import com.project.ATM_simulator.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,8 @@ class ATMTest {
     void setUp() {
         bank = new Bank(1000.0);
         user = new User(bank, 0);
-        atm = new ATM(user);
-        currency = new Currency(1000.0);
+        currency = new Currency();
+        atm = new ATM(user, currency);
     }
 
     @Test
@@ -71,6 +72,8 @@ class ATMTest {
         String keyValue = "USD";
         double expectedPocketBalanceAfterExchange = atm.currencyExchange(withdraw, keyValue);
         double actualExchangeValue = atm.getUSDCurrency() * withdraw;
+        System.out.println("expected: " + expectedPocketBalanceAfterExchange);
+        System.out.println("actual: " + actualExchangeValue);
 
         assertEquals(expectedPocketBalanceAfterExchange, actualExchangeValue);
 
