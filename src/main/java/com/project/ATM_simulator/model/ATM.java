@@ -18,7 +18,7 @@ public class ATM {
         return newBalance;
     }
 
-    public double withdrawPocketBalance(double withdraw){
+    public double addToPocketBalance(double withdraw){
         double balance = user.getPocketBalance();
         double newBalance = balance + withdraw;
         user.setPocketBalance(newBalance);
@@ -27,6 +27,6 @@ public class ATM {
 
     public void withdraw(double withdraw){
         userBankAccountWithdrawal(withdraw);
-        withdrawPocketBalance(withdraw);
+        addToPocketBalance(withdraw);
     }
 }
