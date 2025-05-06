@@ -7,8 +7,6 @@ import com.project.ATM_simulator.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.HashMap;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class ATMTest {
@@ -43,16 +41,6 @@ class ATMTest {
     }
 
     @Test
-    public void testUserPocketBalanceWithdrawal() {
-        double withdraw = 100;
-        double expectedBalance = 0 + 100;
-        double actualBalance = atm.addToPocketBalance(withdraw);
-
-
-        assertEquals(expectedBalance, actualBalance);
-    }
-
-    @Test
     public void testWithdraw() {
         double withdraw = 100;
 
@@ -70,14 +58,39 @@ class ATMTest {
 
         double withdraw = 100.0;
         String keyValue = "USD";
-        double expectedPocketBalanceAfterExchange = atm.currencyExchange(withdraw, keyValue);
-        double actualExchangeValue = atm.getUSDCurrency() * withdraw;
+        double usd = 0.1037;
+        double expectedPocketBalanceAfterExchange = usd * withdraw;
+        double actualExchangeValue = atm.currencyExchange(withdraw, keyValue);
         System.out.println("expected: " + expectedPocketBalanceAfterExchange);
         System.out.println("actual: " + actualExchangeValue);
 
         assertEquals(expectedPocketBalanceAfterExchange, actualExchangeValue);
+    }
+
+    @Test
+    public void testAddToPocketBalance() {
+        double withdraw = 100.0;
+        double usd = 0.1037;
+        double expectedPocketBalance = usd * withdraw;
+        String keyValue = "USD";
+        double actualNewPocketBalance = atm.addToPocketBalance(withdraw, keyValue);
+
+
+        assertEquals(expectedPocketBalance, actualNewPocketBalance);
 
     }
+
+    @Test
+    public void testUserPocketBalanceWithdrawal() {
+        double withdraw = 100;
+        double expectedBalance = 0 + 100;
+        double actualBalance = atm.addToPocketBalance(withdraw, keyValue);
+
+
+        assertEquals(expectedBalance, actualBalance);
+    }
+
+
 }
 
 
