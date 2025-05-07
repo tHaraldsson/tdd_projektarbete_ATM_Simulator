@@ -1,5 +1,6 @@
 package com.project.ATM_simulator.model;
 
+import com.project.ATM_simulator.auth.Authentication;
 import com.project.ATM_simulator.enums.CurrencyType;
 
 import java.util.Map;
@@ -7,9 +8,11 @@ import java.util.Map;
 public class ATM {
     private User user;
     private Currency currency;
+    private Authentication auth;
 
 
-    public ATM(User user, Currency currency) {
+    public ATM(User user, Currency currency, Authentication auth) {
+        this.auth = auth;
         this.user = user;
         this.currency = currency;
     }
@@ -44,6 +47,10 @@ public class ATM {
         return newCurrencyValue;
     }
 
-   
+   public boolean authenticateUser (String email, int pinCode, User user) {
+
+        return auth.authenticate(email, pinCode, user);
+
+   }
 
 }

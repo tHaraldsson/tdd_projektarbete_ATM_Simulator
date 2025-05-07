@@ -7,12 +7,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
+
+    private String email;
+    private int pinCode;
+
     private Bank bank;
     private Wallet wallet;
 
-    public User(Bank bank, Wallet wallet) {
+    public User(Bank bank, Wallet wallet, String email, int pinCode) {
+        this.email = email;
+        this.pinCode = pinCode;
         this.bank = bank;
         this.wallet = wallet;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+    public int getPinCode() {
+        return pinCode;
     }
 
     public String getWalletBalancesToString() {

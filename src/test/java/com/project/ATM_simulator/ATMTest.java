@@ -1,5 +1,6 @@
 package com.project.ATM_simulator;
 
+import com.project.ATM_simulator.auth.Authentication;
 import com.project.ATM_simulator.enums.CurrencyType;
 import com.project.ATM_simulator.model.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,14 +15,16 @@ class ATMTest {
     private User user;
     private ATM atm;
     private Currency currency;
+    private Authentication auth;
 
     @BeforeEach
     void setUp() {
         bank = new Bank(1000.0);
         wallet = new Wallet();
-        user = new User(bank, wallet);
+        user = new User(bank, wallet, "", 0);
         currency = new Currency();
-        atm = new ATM(user, currency);
+        auth = new Authentication();
+        atm = new ATM(user, currency, auth);
     }
 
     @Test
@@ -38,12 +41,6 @@ class ATMTest {
         double actualBalance = atm.userBankAccountWithdrawal(withdraw);
 
         assertEquals(expectedBalance, actualBalance);
-    }
-
-    @Test
-    public void testWithdraw() {
-        double withdraw = 100;
-
     }
 
     @Test
@@ -73,19 +70,23 @@ class ATMTest {
     }
 
     @Test
-    public void testAuthentication() {
-
-
+    public void testAuthenticationTrue() {
         String email = "bennybanan@gmail.com";
         int pinCode = 1234;
         User benny = new User(bank, wallet, email, pinCode);
 
-        boolean trueIfAuthorized = authentication(email, pinCode, benny);
-
-
-
+        boolean trueIfAuthorized = atm.authenticateUser(email, pinCode, benny);
     assertTrue(trueIfAuthorized, "Should pass with correct credentials");
 }
+
+@Test
+    public void testAuthenticationFalse() {
+
+        User benny = new User(bank, wallet, "bennybanan@gmail.com", 1234);
+
+        boolean falseIfNotAuthorized = atm.authenticateUser("bennybenassi@hotmail.com", 4444, benny);
+        assertFalse(falseIfNotAuthorized, "Should pass with faulty credentials");
+    }
 
 }
 
