@@ -33,7 +33,7 @@ public class ATM {
 
     public void withdraw(CurrencyType currencyType, double withdraw) {
         userBankAccountWithdrawal(withdraw);
-       addToWallet(currencyType, withdraw);
+        addToWallet(currencyType, withdraw);
     }
 
     public double currencyExchange(CurrencyType type, double withdraw) {
@@ -43,5 +43,7 @@ public class ATM {
 
         return newCurrencyValue;
     }
+
+   
 
 }

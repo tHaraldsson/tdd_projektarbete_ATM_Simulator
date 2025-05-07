@@ -72,7 +72,20 @@ class ATMTest {
         assertEquals(expectedWalletBalance, actualWalletBalance);
     }
 
-    
+    @Test
+    public void testAuthentication() {
+
+
+        String email = "bennybanan@gmail.com";
+        int pinCode = 1234;
+        User benny = new User(bank, wallet, email, pinCode);
+
+        boolean trueIfAuthorized = authentication(email, pinCode, benny);
+
+
+
+    assertTrue(trueIfAuthorized, "Should pass with correct credentials");
+}
 
 }
 
