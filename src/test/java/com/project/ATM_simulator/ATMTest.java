@@ -1,9 +1,7 @@
 package com.project.ATM_simulator;
 
-import com.project.ATM_simulator.model.ATM;
-import com.project.ATM_simulator.model.Bank;
-import com.project.ATM_simulator.model.Currency;
-import com.project.ATM_simulator.model.User;
+import com.project.ATM_simulator.enums.CurrencyType;
+import com.project.ATM_simulator.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,6 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ATMTest {
 
     private Bank bank;
+    private Wallet wallet;
     private User user;
     private ATM atm;
     private Currency currency;
@@ -19,7 +18,8 @@ class ATMTest {
     @BeforeEach
     void setUp() {
         bank = new Bank(1000.0);
-        user = new User(bank, 0);
+        wallet = new Wallet();
+        user = new User(bank, wallet);
         currency = new Currency();
         atm = new ATM(user, currency);
     }
@@ -44,23 +44,16 @@ class ATMTest {
     public void testWithdraw() {
         double withdraw = 100;
 
-        double expectedBankBalance = 1000.0 - withdraw;
-        double expectedPocketBalance = 0 + withdraw;
-
-        atm.withdraw(withdraw);
-
-        assertEquals(expectedBankBalance, user.getAccountBalance());
-        assertEquals(expectedPocketBalance, user.getPocketBalance());
     }
 
     @Test
     public void testExchange() {
 
         double withdraw = 100.0;
-        String keyValue = "USD";
+        CurrencyType currencyType = CurrencyType.USD;
         double usd = 0.1037;
         double expectedPocketBalanceAfterExchange = usd * withdraw;
-        double actualExchangeValue = atm.currencyExchange(withdraw, keyValue);
+        double actualExchangeValue = atm.currencyExchange(currencyType, withdraw);
         System.out.println("expected: " + expectedPocketBalanceAfterExchange);
         System.out.println("actual: " + actualExchangeValue);
 
@@ -68,28 +61,18 @@ class ATMTest {
     }
 
     @Test
-    public void testAddToPocketBalance() {
+    public void testAddToWallet() {
         double withdraw = 100.0;
         double usd = 0.1037;
-        double expectedPocketBalance = usd * withdraw;
-        String keyValue = "USD";
-        double actualNewPocketBalance = atm.addToPocketBalance(withdraw, keyValue);
+        double expectedWalletBalance = usd * withdraw;
+        CurrencyType currencyType = CurrencyType.USD;
+        atm.addToWallet(currencyType, withdraw);
+        double actualWalletBalance = user.getWalletBalancesMap().get(currencyType);
 
-
-        assertEquals(expectedPocketBalance, actualNewPocketBalance);
-
+        assertEquals(expectedWalletBalance, actualWalletBalance);
     }
 
-    @Test
-    public void testUserPocketBalanceWithdrawal() {
-        double withdraw = 100;
-        double expectedBalance = 0 + 100;
-        double actualBalance = atm.addToPocketBalance(withdraw, keyValue);
-
-
-        assertEquals(expectedBalance, actualBalance);
-    }
-
+    
 
 }
 

@@ -1,25 +1,28 @@
 package com.project.ATM_simulator.model;
 
+import com.project.ATM_simulator.enums.CurrencyType;
+
+import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Map;
+
 public class Currency {
 
-    private double usd = 0.1037;
-    private double gbp = 0.074;
-    private double eur = 0.087;
-    private double sek = 1;
+    private final Map<CurrencyType, Double> exchangeRates;
 
-    public double getUsd() {
-        return usd;
+
+    public Currency() {
+        exchangeRates = new EnumMap<>(CurrencyType.class);
+        exchangeRates.put(CurrencyType.USD, 0.1037);
+        exchangeRates.put(CurrencyType.EUR, 0.087);
+        exchangeRates.put(CurrencyType.GBP, 0.074);
+        exchangeRates.put(CurrencyType.SEK, 1.0);
     }
 
-    public double getGbp() {
-        return gbp;
+    public double getExchangeRate(CurrencyType currencyType) {
+        return exchangeRates.get(currencyType);
     }
 
-    public double getEur() {
-        return eur;
-    }
 
-    public double getSek() {
-        return sek;
-    }
+
 }
