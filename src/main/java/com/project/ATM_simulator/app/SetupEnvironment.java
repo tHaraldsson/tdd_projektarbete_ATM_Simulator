@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class SetupEnvironment {
 
-    public void initialize() {
+    public SetupEnvironment() {
 
         Wallet bennysWallet = new Wallet();
         Wallet fridasWallet = new Wallet();
@@ -33,21 +33,28 @@ public class SetupEnvironment {
         registry.registerBank(swedbank);
         registry.registerBank(handelsbanken);
 
-        Scanner scanner = new Scanner(System.in);
         System.out.print("Ange e-post: ");
         String email = Utils.stringInputScanner();
+        Utils.emailValidator(email);
+
         System.out.print("Ange pinkod: ");
-        int pinCode = Utils.intInputScanner();
+
+        String stringPinCode = Utils.stringInputScanner();
+
+        int intPinCode = 0;
+
+        if (Utils.pinCodeValidator(stringPinCode)){
+            intPinCode = Utils.intParser(stringPinCode);
+        }
 
 
-        User loggedInUser = registry.authenticateUser(email, pinCode);
+
+        User loggedInUser = registry.authenticateUser(email, intPinCode);
         if (loggedInUser != null) {
             Bank userBank = registry.getUserBank(loggedInUser);
             ATM atm = new ATM(loggedInUser, currency, userBank);
             System.out.println("Välkommen, " + loggedInUser.getName());
 
-        } else {
-            System.out.println("Fel inloggning!");
         }
     }
 }

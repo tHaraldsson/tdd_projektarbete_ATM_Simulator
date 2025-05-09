@@ -6,11 +6,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class UtilsTest {
 
+
+
     @Test
     public void testEmailValidatorTrue() {
 
         String email = "bennybanan@gmail.com";
-        boolean validEmail = emailValidator(email);
+        boolean validEmail = Utils.emailValidator(email);
 
         assertTrue(validEmail);
     }
@@ -19,7 +21,7 @@ class UtilsTest {
     public void testEmailValidatorWithoutAt() {
 
         String email = "benny.mail.com";
-        boolean inValidEmail = emailValidator(email);
+        boolean inValidEmail = Utils.emailValidator(email);
 
         assertFalse(inValidEmail);
     }
@@ -28,7 +30,7 @@ class UtilsTest {
     public void testEmailValidatorWithoutDotAfterAt() {
 
         String email = "bennybanan@gmailcom";
-        boolean inValidEmail = emailValidator(email);
+        boolean inValidEmail = Utils.emailValidator(email);
 
         assertFalse(inValidEmail);
     }
@@ -36,8 +38,8 @@ class UtilsTest {
     @Test
     public void testPinCodeValidatorTrue() {
 
-        int pinCode = 1234;
-        boolean validPinCode = pinCodeValidator(pinCode);
+        String pinCode = "1234";
+        boolean validPinCode = Utils.pinCodeValidator(pinCode);
         assertTrue(validPinCode);
     }
 
@@ -45,23 +47,23 @@ class UtilsTest {
     public void testPinCodeValidatorIsNotInt() {
 
         String pinCode = "abcd";
-        boolean invalidPincode = pinCodeValidator(pinCode);
+        boolean invalidPincode = Utils.pinCodeValidator(pinCode);
         assertFalse(invalidPincode);
     }
 
     @Test
     public void testPinCodeValidatorContainsMoreThanFourDigits() {
 
-        int pinCode = 12345;
-        boolean invalidPincode = pinCodeValidator(pinCode);
+        String pinCode = "12345";
+        boolean invalidPincode = Utils.pinCodeValidator(pinCode);
         assertFalse(invalidPincode, "Should return false if pinCode contains more than four digits");
     }
 
     @Test
     public void testPinCodeValidatorContainsLessThanFourDigits() {
 
-        int pinCode = 123;
-        boolean invalidPincode = pinCodeValidator(pinCode);
+        String pinCode = "123";
+        boolean invalidPincode = Utils.pinCodeValidator(pinCode);
         assertFalse(invalidPincode, "Should return false if pinCode contains less than four digits");
     }
 
