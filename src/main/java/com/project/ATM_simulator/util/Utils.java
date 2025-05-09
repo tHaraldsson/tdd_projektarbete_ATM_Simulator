@@ -19,4 +19,5 @@ public class Utils {
     public static void closeScanner() {
         sc.close();
     }
+
 }
