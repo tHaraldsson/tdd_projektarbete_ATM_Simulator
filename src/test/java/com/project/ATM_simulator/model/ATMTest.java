@@ -1,8 +1,9 @@
-package com.project.ATM_simulator;
+package com.project.ATM_simulator.model;
 
-import com.project.ATM_simulator.auth.Authentication;
 import com.project.ATM_simulator.enums.CurrencyType;
-import com.project.ATM_simulator.model.*;
+import com.project.ATM_simulator.model.bank.Account;
+import com.project.ATM_simulator.model.bank.Bank;
+import com.project.ATM_simulator.model.bank.BankRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,21 +16,25 @@ class ATMTest {
     private User user;
     private ATM atm;
     private Currency currency;
-    private Authentication auth;
+    private BankRegistry bankRegistry;
+    private Account account;
 
     @BeforeEach
     void setUp() {
-        bank = new Bank(1000.0);
+        bank = new Bank();
         wallet = new Wallet();
-        user = new User(bank, wallet, "", 0);
+        account = new Account(1000.0);
+        user = new User("bennybanan@gmail.com", 1234, "benny", wallet, account);
         currency = new Currency();
-        auth = new Authentication();
-        atm = new ATM(user, currency, auth);
+        atm = new ATM(user, currency, bank);
+        bankRegistry = new BankRegistry();
+        bank.addUser(user);
+        bankRegistry.registerBank(bank);
     }
 
     @Test
     public void testViewUserBankBalance() {
-        double balance = atm.viewUserBankBalance();
+        double balance = atm.getAccountBalance();
         assertEquals(1000.0, balance);
     }
 
@@ -45,14 +50,11 @@ class ATMTest {
 
     @Test
     public void testExchange() {
-
         double withdraw = 100.0;
         CurrencyType currencyType = CurrencyType.USD;
         double usd = 0.1037;
         double expectedPocketBalanceAfterExchange = usd * withdraw;
         double actualExchangeValue = atm.currencyExchange(currencyType, withdraw);
-        System.out.println("expected: " + expectedPocketBalanceAfterExchange);
-        System.out.println("actual: " + actualExchangeValue);
 
         assertEquals(expectedPocketBalanceAfterExchange, actualExchangeValue);
     }
@@ -69,27 +71,4 @@ class ATMTest {
         assertEquals(expectedWalletBalance, actualWalletBalance);
     }
 
-    @Test
-    public void testAuthenticationTrue() {
-        String email = "bennybanan@gmail.com";
-        int pinCode = 1234;
-        User benny = new User(bank, wallet, email, pinCode);
-
-        boolean trueIfAuthorized = atm.authenticateUser(email, pinCode, benny);
-    assertTrue(trueIfAuthorized, "Should pass with correct credentials");
 }
-
-@Test
-    public void testAuthenticationFalse() {
-
-        User benny = new User(bank, wallet, "bennybanan@gmail.com", 1234);
-
-        boolean falseIfNotAuthorized = atm.authenticateUser("bennybenassi@hotmail.com", 4444, benny);
-        assertFalse(falseIfNotAuthorized, "Should pass with faulty credentials");
-    }
-
-}
-
-
-
-

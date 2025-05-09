@@ -1,31 +1,44 @@
 package com.project.ATM_simulator.model;
 
 import com.project.ATM_simulator.enums.CurrencyType;
+import com.project.ATM_simulator.model.bank.Account;
 
-import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 
 public class User {
 
     private String email;
     private int pinCode;
-
-    private Bank bank;
+    private String name;
     private Wallet wallet;
+    private Account account;
 
-    public User(Bank bank, Wallet wallet, String email, int pinCode) {
+    public User(String email, int pinCode, String name, Wallet wallet, Account account) {
         this.email = email;
         this.pinCode = pinCode;
-        this.bank = bank;
+        this.name = name;
         this.wallet = wallet;
+        this.account = account;
     }
 
     public String getEmail() {
         return email;
     }
+
     public int getPinCode() {
         return pinCode;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getAccountBalance(){
+        return account.getAccountBalance();
+    }
+
+    public void setAccountBalance(double balance){
+        account.setAccountBalance(balance);
     }
 
     public String getWalletBalancesToString() {
@@ -40,13 +53,5 @@ public class User {
 
     public Map<CurrencyType, Double> getWalletBalancesMap() {
         return wallet.getBalances();
-    }
-
-    public double getAccountBalance() {
-        return bank.getAccountBalance();
-    }
-
-    public void setAccountBalance(double accountBalance) {
-        bank.setAccountBalance(accountBalance);
     }
 }
