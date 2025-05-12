@@ -25,9 +25,7 @@ public class Utils {
         int dotIndex = email.lastIndexOf('.');
 
         if (atIndex > 0 && dotIndex > atIndex + 1 && dotIndex < email.length() - 1) {
-
             return true;
-
         } else {
             System.out.println("Kontrollera att @ kommer före sista punkten, och inte först eller sist");
             return false;
@@ -39,7 +37,7 @@ public class Utils {
             if (pinCode != null && pinCode.length() == 4 && pinCode.matches("\\d+")) {
                 return true;
             } else {
-                System.out.println("Ett misstag har begåtts. Pinkoden måste vara 4 siffror");
+                System.out.println("Ett fel har inträffat. Pinkoden måste vara 4 siffror");
                 return false;
             }
         }

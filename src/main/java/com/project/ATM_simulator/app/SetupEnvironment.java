@@ -6,11 +6,9 @@ import com.project.ATM_simulator.model.bank.Bank;
 import com.project.ATM_simulator.model.bank.BankRegistry;
 import com.project.ATM_simulator.util.Utils;
 
-import java.util.Scanner;
-
 public class SetupEnvironment {
 
-    public SetupEnvironment() {
+    public void initialize() {
 
         Wallet bennysWallet = new Wallet();
         Wallet fridasWallet = new Wallet();
@@ -33,28 +31,55 @@ public class SetupEnvironment {
         registry.registerBank(swedbank);
         registry.registerBank(handelsbanken);
 
-        System.out.print("Ange e-post: ");
-        String email = Utils.stringInputScanner();
-        Utils.emailValidator(email);
 
-        System.out.print("Ange pinkod: ");
+        loginATM (registry, currency);
 
-        String stringPinCode = Utils.stringInputScanner();
+    }
 
-        int intPinCode = 0;
+    public void loginATM(BankRegistry registry, Currency currency) {
 
-        if (Utils.pinCodeValidator(stringPinCode)){
-            intPinCode = Utils.intParser(stringPinCode);
-        }
+        boolean running = true;
+        while (running) {
+            // E-postvalidering
+            String email;
+            do {
+                System.out.print("Ange e-post: ");
+                email = Utils.stringInputScanner();
+            } while (!Utils.emailValidator(email));
 
+            // Pinkodsvalidering
+            String stringPincode;
+            int intPincode;
+            int attempts = 0;
+            final int MAX_ATTEMPTS = 3;
 
+            // Körs så länge pinCodeValidator returnerar false
+            do {
+                System.out.print("Ange pinkod: ");
+                // Returnerar en String
+                stringPincode = Utils.stringInputScanner();
+                attempts++;
 
-        User loggedInUser = registry.authenticateUser(email, intPinCode);
-        if (loggedInUser != null) {
-            Bank userBank = registry.getUserBank(loggedInUser);
-            ATM atm = new ATM(loggedInUser, currency, userBank);
-            System.out.println("Välkommen, " + loggedInUser.getName());
+                if (attempts >= MAX_ATTEMPTS) {
+                    System.out.println("För många felaktiga försök. Avslutar.");
+                return;
+                }
 
+            } while (!Utils.pinCodeValidator(stringPincode) && attempts < MAX_ATTEMPTS);
+            // Parsar en String och returnerar int
+            int intPinCode = Utils.intParser(stringPincode);
+
+            User loggedInUser = registry.authenticateUser(email, intPinCode);
+            if (loggedInUser != null) {
+                System.out.println("Välkommen, " + loggedInUser.getName());
+                ATM ATMWithLoggedInUser = new ATM(loggedInUser, currency, registry.getUserBank(loggedInUser));
+                interact(ATMWithLoggedInUser);
+                running = false;
+            } else {
+                System.out.println("Användaren hittades inte. Vänligen kontrollera att du angivit rätt e-post och pinkod");
+            }
         }
     }
+
+    
 }
