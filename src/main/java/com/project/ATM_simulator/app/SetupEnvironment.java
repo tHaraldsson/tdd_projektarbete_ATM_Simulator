@@ -5,6 +5,11 @@ import com.project.ATM_simulator.model.bank.Account;
 import com.project.ATM_simulator.model.bank.Bank;
 import com.project.ATM_simulator.model.bank.BankRegistry;
 import com.project.ATM_simulator.util.Utils;
+import com.project.ATM_simulator.validation.EmailValidator;
+import com.project.ATM_simulator.validation.IValidator;
+import com.project.ATM_simulator.validation.PinCodeValidator;
+
+import javax.xml.validation.Validator;
 
 public class SetupEnvironment {
 
@@ -24,6 +29,9 @@ public class SetupEnvironment {
         User benny = new User("bennyandersson@gmail.com", 2879, "Benny", bennysWallet, bennysAccount);
         User frida = new User("fridasvensson@hotmail.com", 5931, "Frida", fridasWallet, fridasAccount);
 
+        IValidator pinCodeValidator = new PinCodeValidator();
+        IValidator emailValidator = new EmailValidator();
+
         swedbank.addUser(benny);
         handelsbanken.addUser(frida);
 
@@ -32,11 +40,11 @@ public class SetupEnvironment {
         registry.registerBank(handelsbanken);
 
 
-        loginATM (registry, currency);
+        loginATM (registry, currency, emailValidator, pinCodeValidator);
 
     }
 
-    public void loginATM(BankRegistry registry, Currency currency) {
+    public void loginATM(BankRegistry registry, Currency currency, IValidator emailValidator, IValidator pinCodeValidator) {
 
         boolean running = true;
         while (running) {
@@ -45,7 +53,7 @@ public class SetupEnvironment {
             do {
                 System.out.print("Ange e-post: ");
                 email = Utils.stringInputScanner();
-            } while (!Utils.emailValidator(email));
+            } while (!emailValidator.validate(email));
 
             // Pinkodsvalidering
             String stringPincode;
@@ -65,7 +73,7 @@ public class SetupEnvironment {
                 return;
                 }
 
-            } while (!Utils.pinCodeValidator(stringPincode) && attempts < MAX_ATTEMPTS);
+            } while (!pinCodeValidator.validate(stringPincode) && attempts < MAX_ATTEMPTS);
             // Parsar en String och returnerar int
             int intPinCode = Utils.intParser(stringPincode);
 
@@ -80,6 +88,8 @@ public class SetupEnvironment {
             }
         }
     }
+
+
 
     
 }
