@@ -7,7 +7,6 @@ public class Utils {
     private static final Scanner sc = new Scanner(System.in);
 
     public static String stringInputScanner() {
-
         return sc.nextLine();
     }
 
@@ -15,10 +14,13 @@ public class Utils {
         sc.close();
     }
 
-        public static int intParser(String pinCode) {
-
-         return Integer.parseInt(pinCode);
-        }
+    public static int intParser(String pinCode) {
+        return Integer.parseInt(pinCode);
     }
+
+    public static double doubleParser(String userInput) {
+        return Double.parseDouble(userInput);
+    }
+}
 
 

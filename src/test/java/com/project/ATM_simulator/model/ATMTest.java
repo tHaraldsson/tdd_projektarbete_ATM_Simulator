@@ -49,6 +49,16 @@ class ATMTest {
     }
 
     @Test
+    public void testWithdrawingMoreThanAccountBalance() {
+
+        double withdraw = 1200;
+        double expectedBalance = 1000.0;
+
+        double actualBalance = atm.userBankAccountWithdrawal(withdraw);
+        assertEquals(expectedBalance, actualBalance, "When trying to withdraw more than account balance, userBankAccountWithdrawal should return amount before withdrawal");
+    }
+
+    @Test
     public void testExchange() {
         double withdraw = 100.0;
         CurrencyType currencyType = CurrencyType.USD;

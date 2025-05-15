@@ -41,14 +41,16 @@ public class User {
         account.setAccountBalance(balance);
     }
 
-    public String getWalletBalancesToString() {
-        Map<CurrencyType, Double> balances = wallet.getBalances();
+    public String getAddedWalletBalance(CurrencyType currencyType){
+        return wallet.getAddedWalletBalance(currencyType);
+    }
 
+    public void getWalletBalancesToString() {
+        Map<CurrencyType, Double> balances = wallet.getBalances();
+        System.out.println("Du har: ");
         for (Map.Entry<CurrencyType, Double> balance : balances.entrySet()) {
             System.out.println(balance.getKey() + ": " + balance.getValue());
         }
-
-        return balances.toString();
     }
 
     public Map<CurrencyType, Double> getWalletBalancesMap() {

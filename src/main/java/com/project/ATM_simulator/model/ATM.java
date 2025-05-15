@@ -22,25 +22,42 @@ public class ATM {
 
     public double userBankAccountWithdrawal(double withdraw) {
         double balance = getAccountBalance();
-        double newBalance = balance - withdraw;
-        user.setAccountBalance(newBalance);
-        return newBalance;
+        if (balance < withdraw) {
+            return balance; // Återvänd det ursprungliga saldot om uttaget misslyckas
+        } else {
+
+            double newBalance = balance - withdraw;
+            user.setAccountBalance(newBalance);
+            return newBalance;
+        }
     }
 
     public void addToWallet(CurrencyType currencyType, double withdraw) {
         Map<CurrencyType, Double> walletMap = user.getWalletBalancesMap();
-        double newBalance = currencyExchange(currencyType, withdraw);
+        double exchangeBalance = currencyExchange(currencyType, withdraw);
+        double newBalance = walletMap.getOrDefault(currencyType, 0.0) + exchangeBalance;
         walletMap.put(currencyType, newBalance);
+        System.out.println("Du växlade " + withdraw + " SEK till " + exchangeBalance + " " + currencyType);
     }
 
     public void withdraw(CurrencyType currencyType, double withdraw) {
-        userBankAccountWithdrawal(withdraw);
-        addToWallet(currencyType, withdraw);
+
+        // Först kontrollera om uttaget kan genomföras baserat på kontosaldot
+                userBankAccountWithdrawal(withdraw);
+        if (withdraw > user.getAccountBalance()) {
+            System.out.println("Otillräckligt saldo. Du kan inte ta ut mer än du har på kontot.");
+        } else {
+            addToWallet(currencyType, withdraw); // Lägg till växlat belopp till plånboken
+        }
     }
 
     public double currencyExchange(CurrencyType type, double withdraw) {
         double currencyValue = currency.getExchangeRate(type);
         return withdraw * currencyValue;
+    }
+
+    public void getWalletBalancesToString() {
+        user.getWalletBalancesToString();
     }
 
 }
