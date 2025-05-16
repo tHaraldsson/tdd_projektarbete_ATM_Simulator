@@ -37,7 +37,11 @@ public class ATM {
         double exchangeBalance = currencyExchange(currencyType, withdraw);
         double newBalance = walletMap.getOrDefault(currencyType, 0.0) + exchangeBalance;
         walletMap.put(currencyType, newBalance);
-        System.out.println("Du växlade " + withdraw + " SEK till " + exchangeBalance + " " + currencyType);
+        if (currencyType == CurrencyType.SEK) {
+            System.out.println("Du tog ut " + withdraw + " " + currencyType);
+        } else {
+            System.out.println("Du växlade " + withdraw + " SEK till " + exchangeBalance + " " + currencyType);
+        }
     }
 
     public void withdraw(CurrencyType currencyType, double withdraw) {

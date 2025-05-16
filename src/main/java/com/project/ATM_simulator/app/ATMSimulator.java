@@ -43,7 +43,7 @@ public class ATMSimulator {
 
     }
 
-    public ATM loginATM(BankRegistry registry, Currency currency, IValidator emailValidator, IValidator pinCodeValidator) {
+    public ATM loginATM(Environment env) {
         int attemptsWithFourDigits = 0;
         int attemptsWithWrongDigits = 0;
         final int MAX_ATTEMPTS = 3;
@@ -54,7 +54,7 @@ public class ATMSimulator {
             do {
                 System.out.print("Ange e-post: ");
                 email = Utils.stringInputScanner();
-            } while (!emailValidator.validate(email));
+            } while (!env.emailValidator.validate(email));
 
             // Pinkodsvalidering
             String stringPincode;
@@ -72,15 +72,16 @@ public class ATMSimulator {
                     System.out.println("För många felaktiga försök. Avslutar.");
                     return null;
                 }
-// TODO GÖR OM SKITEN TILL EN METOD (NEDAN)
-            } while (!pinCodeValidator.validate(stringPincode) && (attemptsWithWrongDigits < MAX_ATTEMPTS || attemptsWithFourDigits < MAX_ATTEMPTS));
+
+            } while (!env.pinCodeValidator.validate(stringPincode) &&
+                    (attemptsWithWrongDigits < MAX_ATTEMPTS || attemptsWithFourDigits < MAX_ATTEMPTS));
             // Parsar en String och returnerar int
             intPinCode = Utils.intParser(stringPincode);
 
-            User loggedInUser = registry.authenticateUser(email, intPinCode);
+            User loggedInUser = env.registry.authenticateUser(email, intPinCode);
             if (loggedInUser != null) {
                 System.out.println("Välkommen, " + loggedInUser.getName());
-                return new ATM(loggedInUser, currency, registry.getUserBank(loggedInUser));
+                return new ATM(loggedInUser, env.currency, env.registry.getUserBank(loggedInUser));
             } else {
                 System.out.println("Användaren hittades inte. Vänligen kontrollera att du angivit rätt e-post och pinkod");
                 attemptsWithFourDigits++;
@@ -110,7 +111,11 @@ public class ATMSimulator {
 
                     try {
                         CurrencyType selectedCurrency = CurrencyType.valueOf(currencyInput);
-                        System.out.println("Hur mycket SEK vill du växla?");
+                        if (selectedCurrency == CurrencyType.SEK) {
+                            System.out.println("Hur mycket SEK vill du ta ut?");
+                        }else {
+                            System.out.println("Hur mycket SEK vill du växla?");
+                        }
                         parseUserInput = Utils.stringInputScanner();
                         doubleUserInput = Utils.doubleParser(parseUserInput);
 
@@ -139,7 +144,7 @@ public class ATMSimulator {
     public void runEnvironment() {
 
         Environment env = setupEnvironment();
-        ATM ATMWithLoggedInUser = loginATM(env.registry, env.currency, env.emailValidator, env.pinCodeValidator);
+        ATM ATMWithLoggedInUser = loginATM(env);
         interact(ATMWithLoggedInUser);
 
     }

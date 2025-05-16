@@ -41,10 +41,6 @@ public class User {
         account.setAccountBalance(balance);
     }
 
-    public String getAddedWalletBalance(CurrencyType currencyType){
-        return wallet.getAddedWalletBalance(currencyType);
-    }
-
     public void getWalletBalancesToString() {
         Map<CurrencyType, Double> balances = wallet.getBalances();
         System.out.println("Du har: ");

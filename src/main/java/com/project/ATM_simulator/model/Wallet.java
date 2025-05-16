@@ -17,9 +17,5 @@ public class Wallet {
         public Map<CurrencyType, Double> getBalances() {
             return balances;
         }
-
-        public String getAddedWalletBalance(CurrencyType currencyType) {
-            return balances.get(currencyType).toString();
-        }
     }
 
